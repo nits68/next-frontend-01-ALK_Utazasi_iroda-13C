@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "next-frontend-starter",
@@ -16,6 +17,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Toaster position="bottom-right" toastOptions={{ duration: 5000 }} />
+        <nav className="flex w-full bg-gray-300 p-4 space-x-6">
+          <h1 className="font-bold">ÁLK Utazási Iroda</h1>
+          <Link className="cursor-pointer" href="/journeys">Kínálatunk</Link>
+          <Link className="cursor-pointer" href="/registration">Regisztráció</Link>
+        </nav>  
         {children}
       </body>
     </html>

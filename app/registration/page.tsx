@@ -1,9 +1,10 @@
 "use client";
 
 import axios, { isAxiosError } from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+// import { useGlobalStore } from "@/store/globalStore";
 
 export type JourneyShortItem = {
   id: number;
@@ -20,15 +21,21 @@ export type ReserveItem = {
 };
 
 export default function RegistrationPage() {
+  const router = useRouter();
+  // const { id, setId } = useGlobalStore();
+
+  // Megoldás2: Query paraméterrel
+  const searchParams = useSearchParams();
+  const id = Number(searchParams.get("id"));
+
+
   const [destination, setDestination] = useState<JourneyShortItem[]>([]);
 
   const [newReservation, setNewReservation] = useState<ReserveItem>({
-    journeyId: 0,
+    journeyId: id || 0,
     lastCovidVaccineDate: new Date().toISOString().split("T")[0],
     acceptedConditions: false,
   } as ReserveItem);
-
-  const router = useRouter();
 
   useEffect(() => {
     async function fetchData() {
@@ -36,6 +43,7 @@ export default function RegistrationPage() {
       setDestination(res.data);
     }
     fetchData();
+    // setId(0);
   }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
